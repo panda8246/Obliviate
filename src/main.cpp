@@ -1,10 +1,16 @@
-#include"MemoryChunk.h"
+﻿//开启内存检测
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+
 #include <iostream>
 #include <Windows.h>
 #include <vector>
 #include <stack>
-
+#include"MemoryChunk.h"
 #include "test/MyAllocate.h"
+#include "MemoryPool.h"
 
 struct MyStruct
 {
@@ -26,34 +32,14 @@ void main() {
 
 	while (1)
 	{
-		/*
-		MyStruct* p = (MyStruct*)chunk.Allocate(32);
-		p->a = 0;
-		p->b = 2;
-		p->c = 2;
-		p->d = -213;
-		*/
 
-		MyStruct* ms = (MyStruct*)malloc(100);
-		MyStruct* ms2 = ms + 1;
-		
-		ms->a = 0;
-		ms->b = 2;
-		ms->c = 2;
-		ms->d = -213;
+		vec.push_back(9);
 
-		char ad[100 - 32];
-		char* pt = ad;
-		pt = (char*)ms;
-		delete[](pt);
-
-		ms2->a = 0;
-
-		//vec.push_back(9);
-
-		//chunk.Deallocate(p);
 		Sleep(1);
 	}
+	
+	//可在输出控制台中查看未释放内存的情况
+	_CrtDumpMemoryLeaks();
 
 	getchar();
 }

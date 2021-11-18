@@ -1,4 +1,4 @@
-
+ï»¿
 #include <iostream>
 #include <atomic>
 #include <memory>
@@ -11,15 +11,15 @@
 using namespace std;
 
 
-//ÊµÏÖ×Ô¼ºµÄ Allocator
+//å®ç°è‡ªå·±çš„ Allocator
 
 std::atomic_int g_memory_used(0);
 
 /*****
  * 
- * ²âÊÔÓÃ
+ * æµ‹è¯•ç”¨
  * 
-¼Ì³Ğ×Ô¶¨ÒåÊµÏÖ Allocator
+ç»§æ‰¿è‡ªå®šä¹‰å®ç° Allocator
 ****/
 template<typename T>
 class MyAllocator : public std::allocator<T>
@@ -35,29 +35,29 @@ public:
 
 	SizeType count = 0;
 
-	//ÀàĞÍ×ª»»
+	//ç±»å‹è½¬æ¢
 	template<typename U>
 	struct rebind
 	{
 		using other = MyAllocator<U>;
 	};
 
-	//·ÖÅäÄÚ´æ
+	//åˆ†é…å†…å­˜
 	Pointer allocate(SizeType n)
 	{
 		count = n;
-		std::cout << "¹ÜÀÏ×ÓÒªÄÚ´æÀ´ÁË£¿  ======>  " << count << std::endl;
+		std::cout << "ç®¡è€å­è¦å†…å­˜æ¥äº†ï¼Ÿ  ======>  " << count << std::endl;
 		return (T*)pool->Allocate(n * sizeof(T));
 		//return (Base::allocate(n));
 	}
 
-	//»ØÊÕÄÚ´æ
+	//å›æ”¶å†…å­˜
 	void deallocate(Pointer p, SizeType n)
 	{
-		std::cout << "ÀÏ×Ó²»ËÅºòÄãÁË£¡" << std::endl;
+		std::cout << "è€å­ä¸ä¼ºå€™ä½ äº†ï¼" << std::endl;
 		g_memory_used.fetch_add(n * sizeof(T));
 		pool->Deallocate(p);
-		Base::deallocate(p, n);
+		//Base::deallocate(p, n);
 	}
 
 	MyAllocator() = default;
