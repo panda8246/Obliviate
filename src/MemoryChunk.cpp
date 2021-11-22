@@ -1,10 +1,10 @@
-#include "MemoryChunk.h"
+ï»¿#include "MemoryChunk.h"
 
 
 MemoryChunk::MemoryChunk(int block_size, int init_count) : 
 	BLOCK_SIZE(block_size), block_count(0), block_used_head(nullptr), block_free_head(nullptr), BLOCK_TYPE_SIZE(sizeof(Block))
 {
-	//Éú³ÉBlocks
+	//ç”ŸæˆBlocks
 	for (int i = 0; i < init_count; ++i)
 	{
 		NewBlock();
@@ -13,7 +13,7 @@ MemoryChunk::MemoryChunk(int block_size, int init_count) :
 
 void* MemoryChunk::Allocate(int size)
 {
-	//·ÖÅäµÄ´óĞ¡Ó¦Ğ¡ÓÚBlock¹ÜÀíµÄ×î´ó×Ö½Ú
+	//åˆ†é…çš„å¤§å°åº”å°äºBlockç®¡ç†çš„æœ€å¤§å­—èŠ‚
 	assert(size <= BLOCK_SIZE);
 
 	if (block_free_head == nullptr)
@@ -28,11 +28,13 @@ void* MemoryChunk::Allocate(int size)
 		
 		block->next = nullptr;
 		block->prev = nullptr;
+		block_used_head = block;
 	}
 	else
 	{
 		block_used_head->prev = block;
 		block->next = block_used_head;
+		block->prev = nullptr;
 		block_used_head = block;
 	}
 
@@ -44,7 +46,7 @@ void* MemoryChunk::Allocate(int size)
 		Expand();
 	}
 
-	PrintMes();
+	//PrintMes();
 
 	return (block + 1);
 }
@@ -75,7 +77,7 @@ void MemoryChunk::Deallocate(void* p)
 	block->prev = nullptr;
 	if (block_free_head != nullptr)
 	{
-		block->next = block_free_head->next;
+		block->next = block_free_head;
 		if (block_free_head->next != nullptr)
 		{
 			block_free_head->next->prev = block;

@@ -1,4 +1,4 @@
-#include "MemoryPool.h"
+ï»¿#include "MemoryPool.h"
 
 MemoryPool* MemoryPool::Instance = nullptr;
 
@@ -15,7 +15,7 @@ MemoryPool* MemoryPool::GetInstance()
 
 MemoryPool::MemoryPool()
 {
-	//´´½¨Chunk
+	//åˆ›å»ºChunk
 	for (int i = 0; i < 8; ++i)
 	{
 		int size = pow(2, i + 3);
@@ -27,7 +27,7 @@ MemoryPool::MemoryPool()
 void* MemoryPool::Allocate(int size)
 {
 	int index = Hash(size);
-	//ÉêÇëµÄÄÚ´æÌ«´ó£¬Ö±½ÓÏòÏµÍ³ÉêÇë£¬²»Í¨¹ýÄÚ´æ³Ø¹ÜÀí
+	//ç”³è¯·çš„å†…å­˜å¤ªå¤§ï¼Œç›´æŽ¥å‘ç³»ç»Ÿç”³è¯·ï¼Œä¸é€šè¿‡å†…å­˜æ± ç®¡ç†
 	if (index == -1)
 	{
 		Block* block = (Block*)malloc(size + sizeof(Block));
@@ -68,4 +68,13 @@ int MemoryPool::Hash(int size)
 	}
 	
 	return -1;
+}
+
+void MemoryPool::PrintState()
+{
+	for (auto chunk : chunks)
+	{
+		std::cout << std::endl <<std::endl << "Chunk Size " << chunk->GetBlockSize() << " : " << std::endl;
+		chunk->PrintMes();
+	}
 }

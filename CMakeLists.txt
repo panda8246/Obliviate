@@ -5,6 +5,7 @@ project(Oblibiate)
 
 set(SOURCE_MAIN 
     "src/test/MyAllocate.h"
+    "src/test/StackAlloc.h"
     "src/MemoryPool.h"
     "src/MemoryPool.cpp"
     "src/MemoryChunk.h"

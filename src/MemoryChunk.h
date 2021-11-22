@@ -1,34 +1,34 @@
-#ifndef MEMORYCHUNK_H
+ï»¿#ifndef MEMORYCHUNK_H
 #define MEMORYCHUNK_H
 
 #include <malloc.h>
 #include <iostream>
 #include <cassert>
 
-//³õÊ¼»¯Ê±´´½¨µÄBlockÊıÁ¿
+//åˆå§‹åŒ–æ—¶åˆ›å»ºçš„Blockæ•°é‡
 #define INIT_BLOCK_COUNT 10
 
 struct Block
 {
-	//Á´±íµÄÇ°ºóÖ¸Õë
+	//é“¾è¡¨çš„å‰åæŒ‡é’ˆ
 	Block* next;
 	Block* prev;
-	//Block¸ºÔğµÄ¿é´óĞ¡
+	//Blockè´Ÿè´£çš„å—å¤§å°
 	int size;
-	//ÊÇ·ñ±»·ÖÅä
+	//æ˜¯å¦è¢«åˆ†é…
 	bool isUsed;
 #ifdef _WIN64
-	//Ìî³ä×Ö½Ú
-	char pad[7];		//64Î»»úÏÂ8×Ö½ÚÌî³ä
+	//å¡«å……å­—èŠ‚
+	char pad[7];		//64ä½æœºä¸‹8å­—èŠ‚å¡«å……
 #else // WIN64
-	char pad[3];		//32Î»»úÏÂ4×Ö½ÚÌî³ä
+	char pad[3];		//32ä½æœºä¸‹4å­—èŠ‚å¡«å……
 #endif
 	
 };
 
 /**
- * @brief MemoryChunk¸ºÔğÉêÇëºÍ¹ÜÀí¾ßÌåµÄÄÚ´æ¿é£¬ÆäÖĞBlockÊÇ¶ÔÒ»¸ö¿éµÄÃèÊö
- * 	Ò»¸öChunk¶ÔÓ¦·ÖÅäµÄÒ»¸öBlockSize£¬ÓÉÁ½¸öË«Á´±íÎ¬»¤ÒÑ·ÖÅäºÍ¿ÉÊ¹ÓÃµÄBlock¡£
+ * @brief MemoryChunkè´Ÿè´£ç”³è¯·å’Œç®¡ç†å…·ä½“çš„å†…å­˜å—ï¼Œå…¶ä¸­Blockæ˜¯å¯¹ä¸€ä¸ªå—çš„æè¿°
+ * 	ä¸€ä¸ªChunkå¯¹åº”åˆ†é…çš„ä¸€ä¸ªBlockSizeï¼Œç”±ä¸¤ä¸ªåŒé“¾è¡¨ç»´æŠ¤å·²åˆ†é…å’Œå¯ä½¿ç”¨çš„Blockã€‚
  */
 class MemoryChunk
 {
@@ -38,32 +38,32 @@ public:
 	/**
 	 * @brief Construct a new Memory Chunk object
 	 * 
-	 * @param block_size Ò»¸öBlock¹ÜÀíµÄ×Ö½Ú´óĞ¡
-	 * @param init_count ³õÊ¼»¯Ê±Éú³ÉµÄBlockÊı
+	 * @param block_size ä¸€ä¸ªBlockç®¡ç†çš„å­—èŠ‚å¤§å°
+	 * @param init_count åˆå§‹åŒ–æ—¶ç”Ÿæˆçš„Blockæ•°
 	 */
 	MemoryChunk(int block_size, int init_count = INIT_BLOCK_COUNT);
 
 	/**
-	 * @brief ÉêÇëÄÚ´æ
+	 * @brief ç”³è¯·å†…å­˜
 	 * 
-	 * @param n ÉêÇëµÄÄÚ´æ×Ö½ÚÊı
-	 * @return void* ·µ»ØµÄÄÚ´æÖ¸Õë 
+	 * @param n ç”³è¯·çš„å†…å­˜å­—èŠ‚æ•°
+	 * @return void* è¿”å›çš„å†…å­˜æŒ‡é’ˆ 
 	 */
 	void* Allocate(int n);
 
 	/**
-	 * @brief ·µ»¹ÄÚ´æ
+	 * @brief è¿”è¿˜å†…å­˜
 	 * 
-	 * @param p ·µ»ØµÄÄÚ´æµØÖ·
+	 * @param p è¿”å›çš„å†…å­˜åœ°å€
 	 */
 	void Deallocate(void* p);
 
-	//Ïò²Ù×÷ÏµÍ³ÉêÇëÒ»¿éÄÚ´æ£¬²¢´´½¨BlockÃèÊöËü
+	//å‘æ“ä½œç³»ç»Ÿç”³è¯·ä¸€å—å†…å­˜ï¼Œå¹¶åˆ›å»ºBlockæè¿°å®ƒ
 	Block* NewBlock();
 
 
 	/**
-	 * @brief freeÁĞ±íÖĞ¿ÉÓÃBlock²»×ãÊ±À©Èİ
+	 * @brief freeåˆ—è¡¨ä¸­å¯ç”¨Blockä¸è¶³æ—¶æ‰©å®¹
 	 * 
 	 */
 	void Expand();
@@ -79,37 +79,53 @@ public:
 		return BLOCK_SIZE;
 	}
 
-	//²âÊÔÓÃ£¬Êä³öĞÅÏ¢
+	//æµ‹è¯•ç”¨ï¼Œè¾“å‡ºä¿¡æ¯
 	void inline PrintMes() const
 	{
 		std::cout << "==== USED ====    " << used_count << std::endl;
 		std::cout << "$$$$ FREE $$$$    " << free_count << std::endl;
+		int count = 0;
+		Block* p = block_used_head;
+		while (p != nullptr)
+		{
+			++count;
+			p = p->next;
+		}
+		std::cout << "TURE USED ------>    " << count << std::endl;
+		count = 0;
+		p = block_free_head;
+		while (p != nullptr)
+		{
+			++count;
+			p = p->next;
+		}
+		std::cout << "TURE FREE ------>    " << count << std::endl;
 	}
 
 private:
 
-	//Ã¿¸öBlockµÄ´óĞ¡£¨µ¥Î»£º×Ö½Ú£©
+	//æ¯ä¸ªBlockçš„å¤§å°ï¼ˆå•ä½ï¼šå­—èŠ‚ï¼‰
 	const int BLOCK_SIZE;
 
-	//Í³¼ÆBlockÊıÁ¿
+	//ç»Ÿè®¡Blockæ•°é‡
 	int block_count;
 
-	//ÒÑÊ¹ÓÃµÄBlockÁ´±íÍ·
+	//å·²ä½¿ç”¨çš„Blocké“¾è¡¨å¤´
 	Block* block_used_head;
 
-	//Î´Ê¹ÓÃµÄBlockÁ´±íÍ·
+	//æœªä½¿ç”¨çš„Blocké“¾è¡¨å¤´
 	Block* block_free_head;
 
-	//BlockÀàĞÍËùÕ¼µÄ×Ö½ÚÊı
+	//Blockç±»å‹æ‰€å çš„å­—èŠ‚æ•°
 	const int BLOCK_TYPE_SIZE;
 
-	//Í³¼ÆÒÑ·ÖÅäµÄBlockÊıÁ¿
+	//ç»Ÿè®¡å·²åˆ†é…çš„Blockæ•°é‡
 	int used_count = 0;
 
-	//Í³¼Æ¿É·ÖÅäµÄBlockÊıÁ¿
+	//ç»Ÿè®¡å¯åˆ†é…çš„Blockæ•°é‡
 	int free_count = 0;
 
-	//À©ÈİÒò×Ó Ä¬ÈÏ1.5
+	//æ‰©å®¹å› å­ é»˜è®¤1.5
 	double expansion_factor = 1.5;
 };
 

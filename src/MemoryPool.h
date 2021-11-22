@@ -1,4 +1,4 @@
-#ifndef MEMORYPOOL_H
+ï»¿#ifndef MEMORYPOOL_H
 #define MEMORYPOOL_H
 
 #include "MemoryChunk.h"
@@ -11,7 +11,7 @@ public:
 	/**
 	 * @brief Get the Instance object
 	 * 
-	 * µ¥ÀıÄ£Ê½·µ»ØMemoryPoolÊµÀı
+	 * å•ä¾‹æ¨¡å¼è¿”å›MemoryPoolå®ä¾‹
 	 * 
 	 * @return MemoryPool* 
 	 */
@@ -19,38 +19,41 @@ public:
 
 
 	/**
-	 * @brief Íâ²¿µ÷ÓÃµÄÉêÇëÄÚ´æº¯Êı
+	 * @brief å¤–éƒ¨è°ƒç”¨çš„ç”³è¯·å†…å­˜å‡½æ•°
 	 * 
-	 * @param size ÉêÇëµÄ×Ö½ÚÊı
-	 * @return void* ·µ»ØµÄ¿éÄÚ´æµØÖ·
+	 * @param size ç”³è¯·çš„å­—èŠ‚æ•°
+	 * @return void* è¿”å›çš„å—å†…å­˜åœ°å€
 	 */
 	void* Allocate(int size);
 
 
 	/**
-	 * @brief ·µ»¹ÄÚ´æ
+	 * @brief è¿”è¿˜å†…å­˜
 	 * 
-	 * @param p ·µ»¹µÄÄÚ´æµØÖ·
+	 * @param p è¿”è¿˜çš„å†…å­˜åœ°å€
 	 */
 	void Deallocate(void* p);
 
 
 	/**
-	 * @brief ¸ù¾İÉêÇëÄÚ´æµÄ´óĞ¡ÅĞ¶Ï½»ÓÉÄÄ¸öChunk¹ÜÀí
+	 * @brief æ ¹æ®ç”³è¯·å†…å­˜çš„å¤§å°åˆ¤æ–­äº¤ç”±å“ªä¸ªChunkç®¡ç†
 	 * 
 	 * @param size 
 	 * @return int 
 	 */
 	int Hash(int size);
 
+
+	void PrintState();
+
 private:
 
 	MemoryPool();
 
-	//ÊµÀı
+	//å®ä¾‹
 	static MemoryPool* Instance;
 
-	//Chunk¶ÔÓ¦·ÖÅäµÄ×Ö½Ú£º8	16	  32	64	  128	 256	512	   1024
+	//Chunkå¯¹åº”åˆ†é…çš„å­—èŠ‚ï¼š8	16	  32	64	  128	 256	512	   1024
 	MemoryChunk* chunks[8];
 	
 };

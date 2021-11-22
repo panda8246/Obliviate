@@ -46,7 +46,7 @@ public:
 	Pointer allocate(SizeType n)
 	{
 		count = n;
-		std::cout << "管老子要内存来了？  ======>  " << count << std::endl;
+		//std::cout << "管老子要内存来了？  ======>  " << count << std::endl;
 		return (T*)pool->Allocate(n * sizeof(T));
 		//return (Base::allocate(n));
 	}
@@ -54,10 +54,17 @@ public:
 	//回收内存
 	void deallocate(Pointer p, SizeType n)
 	{
-		std::cout << "老子不伺候你了！" << std::endl;
+		//std::cout << "老子不伺候你了！" << std::endl;
 		g_memory_used.fetch_add(n * sizeof(T));
 		pool->Deallocate(p);
 		//Base::deallocate(p, n);
+	}
+
+	//对已申请的内存初始化（构造）
+	template <class U, class... Args> 
+	void construct(U* p, Args&&... args)
+	{
+		new (p) U(std::forward<Args>(args)...);
 	}
 
 	MyAllocator() = default;
